@@ -25,12 +25,19 @@ namespace TDD
             return new Dollar(amount * p);
         }
 
-        public bool equals(Object obj)
-        {
-            Dollar dollar = obj as Dollar;
+        //public bool equals(Object obj)
+        //{
+        //    var dollar = obj as Dollar;
+        //    if(dollar==null){
+        //        return false;
+        //    }
+        //    dollar.
 
-            return this.amount == dollar.amount;
-        }
+        //    return this.amount == dollar.amount;
+        //}
+
+
+       
 
         
     }
