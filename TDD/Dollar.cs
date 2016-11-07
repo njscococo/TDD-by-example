@@ -7,7 +7,7 @@ namespace TDD
 {
     public class Dollar
     {
-        public  int amount ;
+        private  int amount ;
         //private int p;
 
         public Dollar(int amount)

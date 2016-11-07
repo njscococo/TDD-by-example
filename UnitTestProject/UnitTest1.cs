@@ -19,10 +19,8 @@ namespace UnitTestProject
         public void testMultiplication()
         {
             TDD.Dollar five = new TDD.Dollar(5);
-            Dollar product = five.times(2);
-            Assert.AreEqual(new Dollar(10), product);
-            product = five.times(3);
-            Assert.AreEqual(new Dollar(15), product);
+            AssertHelper.HasSameFieldValues(new Dollar(10), five.times(2));
+            AssertHelper.HasSameFieldValues(new Dollar(15), five.times(3));
         }
 
         [TestMethod]
@@ -31,7 +29,7 @@ namespace UnitTestProject
             //Assert.AreEqual(new Dollar(5), new Dollar(5));
             //Assert.IsTrue(new Dollar(5)(new Dollar(5)));
             //Assert.IsFalse(new Dollar(5).equals(new Dollar(6)));
-            AssertHelper.HasSameFieldValues(new Dollar(5), new Dollar(10));
+            AssertHelper.HasSameFieldValues(new Dollar(5), new Dollar(5));
 
         }
     }
