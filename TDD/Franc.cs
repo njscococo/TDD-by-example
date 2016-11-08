@@ -5,24 +5,25 @@ using System.Text;
 
 namespace TDD
 {
-    public class Dollar : Money
+    public class Franc : Money
     {
         //private String currency;
-
-        public Dollar(int amount, String currency) :base(amount,currency)
+        public Franc(int amount, String currency) : base(amount, currency)
         {
-           
+                        
         }
 
         public override Money times(int p)
         {
-            //return Money.dollar(amount * p);
-            return new Dollar(amount * p, currency);
+            return new Franc(amount * p, currency);
+            //return Money.franc(amount * p);
+
         }
 
         //public override string getCurrency()
         //{
         //    return currency;
         //}
+        
     }
 }
