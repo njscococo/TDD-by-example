@@ -19,31 +19,18 @@ namespace UnitTestProject
         public void testMultiplication()
         {
             Money five = Money.dollar(5);
-            Assert.IsTrue(new Dollar(15, "USD").amountEquals(five.times(3)));
-
-        }
-
-        [TestMethod]
-        public void testFrancMultiplication()
-        {
-            Money five = Money.franc(5);
-            Assert.IsTrue(new Franc(25, "CHF").amountEquals(five.times(5)));
+            Assert.IsTrue(new Money(15, "USD").amountEquals(five.times(3)));
 
         }
 
         [TestMethod]
         public void testEquality()
-        {
-            Assert.IsTrue(Money.dollar(5).amountEquals(Money.dollar(5)));
+        {            
             Assert.IsFalse(Money.dollar(5).amountEquals(Money.dollar(6)));
+            
+            Assert.IsFalse(new Money(5, "CHF").amountEquals(new Money(6, "CHF")));
 
-            Assert.IsTrue(new Franc(5, "CHF").amountEquals(new Franc(5,"CHF")));
-            Assert.IsFalse(new Franc(5, "CHF").amountEquals(new Franc(6, "CHF")));
-            //Assert.IsTrue(AssertHelper.HasSameFieldValues(new Dollar(10), new Dollar(10)));
-            //Assert.IsFalse( AssertHelper.HasSameFieldValues(new Dollar(15), new Dollar(16)));
-
-            Assert.IsFalse(new Dollar(5, "USD").amountEquals(new Franc(5, "CHF")));
-            Assert.IsFalse(new Dollar(5, "USD").amountEquals(new Dollar(6, "USD")));
+            Assert.IsFalse(new Money(5, "USD").amountEquals(new Money(6, "USD")));
         }
 
         [TestMethod]
@@ -51,6 +38,44 @@ namespace UnitTestProject
         {
             Assert.AreEqual("USD", Money.dollar(1).getCurrency());
             Assert.AreEqual("CHF", Money.franc(1).getCurrency());
+        }
+
+        [TestMethod]
+        public void testSimpleAddition()
+        {
+            Money five = Money.dollar(5);
+            Expression sum = five.plus(five);
+            Bank bank = new Bank();            
+            Money reduced = bank.reduce(sum, "USD");
+            Assert.IsTrue(Money.dollar(10).amountEquals(reduced));
+        }
+
+        [TestMethod]
+        public void testPlusReturnSum()
+        {
+            Money five = Money.dollar(5);
+            Expression result = five.plus(five);
+            Sum sum = result as Sum;
+            Assert.IsTrue(five.amountEquals(sum.augend));
+            Assert.IsTrue(five.amountEquals(sum.addend));
+         }
+
+        [TestMethod]
+        public void testReduceSum()
+        {
+            Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+            Bank bank = new Bank();
+            Money result = bank.reduce(sum, "USD");
+            Assert.IsTrue(Money.dollar(7).amountEquals( result));
+        }
+
+        [TestMethod]
+        public void testReduceMoney()
+        {
+            //Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+            Bank bank = new Bank();
+            Money result = bank.reduce(Money.dollar(1), "USD");
+            Assert.IsTrue(Money.dollar(1).amountEquals(result));
         }
     }
 

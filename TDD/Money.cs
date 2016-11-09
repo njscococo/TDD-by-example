@@ -5,9 +5,9 @@ using System.Text;
 
 namespace TDD
 {
-    public abstract class Money
+    public  class Money : Expression
     {
-        protected int amount;
+        public  int amount;
         protected String currency;
 
         public Money(int amount, String currency)
@@ -16,34 +16,49 @@ namespace TDD
             this.currency = currency;
         }
 
+        public static Money dollar(int amount)
+        {
+            return new Money(amount, "USD");
+        }
+
+        public static Money franc(int amount)
+        {
+            return new Money(amount, "CHF");
+        }
+
+
         public bool amountEquals(Object obj)
         {
             Money money = obj as Money;
-            return this.amount == money.amount && this.GetType().Name==obj.GetType().Name;
+            return this.amount == money.amount && this.getCurrency()==money.getCurrency();
+
         }
 
         public String getCurrency()
         {
             return currency;
         }
-
-
-        public abstract Money times(int multiple);
-
-
-        public static Money dollar(int amount)
-        {
-            return new Dollar(amount, "USD");
-        }
-
-        public static Money franc(int amount)
-        {
-            return new Franc(amount, "CHF");
-        }
-
-
-
-
         
+        public Money times(int multiple)
+        {
+            return new Money(amount * multiple, currency);
+        }
+
+
+        public Expression plus(Money addend)
+        {
+            //return new Money(amount + added.amount, currency);
+            return new Sum(this, addend);
+        }
+
+        public Money reduce(string currency)
+        {
+            return this;
+        }
+    }
+
+    public interface Expression
+    {
+
     }
 }
