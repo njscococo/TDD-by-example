@@ -16,10 +16,10 @@ namespace TDD
             this.augend = augend;
         }
 
-        public Money reduce(string currency)
+        public Money reduce(Bank bank, string currencyTo)
         {
             int amount = augend.amount + addend.amount;
-            return new Money(amount, currency);
+            return new Money(amount, currencyTo);
         }
     }
 }

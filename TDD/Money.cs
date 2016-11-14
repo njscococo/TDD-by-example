@@ -51,14 +51,16 @@ namespace TDD
             return new Sum(this, addend);
         }
 
-        public Money reduce(string currency)
+        public Money reduce(Bank bank, string currencyTo)
         {
-            return this;
+            //int rate =  this.currency.Equals("CHF") && currencyTo.Equals("USD") ? 2 : 1;
+            int rate = bank.rate(this.currency, currencyTo);
+            return new Money(amount / rate, currencyTo);
         }
     }
 
     public interface Expression
     {
-
+        Money reduce(Bank bank, String currencyTo);
     }
 }

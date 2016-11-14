@@ -77,6 +77,15 @@ namespace UnitTestProject
             Money result = bank.reduce(Money.dollar(1), "USD");
             Assert.IsTrue(Money.dollar(1).amountEquals(result));
         }
+
+        [TestMethod]
+        public void testReduceMoneyDiffCurrency()
+        {
+            Bank bank = new Bank();
+            bank.addRate("CHF", "USD", 2);
+            Money result = bank.reduce(Money.franc(2), "USD");
+            Assert.IsTrue(result.amountEquals(Money.dollar(1)));
+        }
     }
 
     public class AssertHelper
