@@ -21,18 +21,19 @@ namespace TDD
             return from.Equals("CHF") && to.Equals("USD") ? 2 : 1;
         }
 
-        private void addRate(String from, String to, int rate)
+        public  void addRate(String from, String to, int rate)
         {
-            rates.Add()
+            rates.Add(new Pair(from, to), rate);
+            
         }
     }
 
-    private class Pair
+    public   class Pair
     {
         private String from;
         private String to;
 
-        Pair(String from, String to)
+        public Pair(String from, String to)
         {
             this.from = from;
             this.to = to;
