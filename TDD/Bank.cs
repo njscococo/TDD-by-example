@@ -18,13 +18,21 @@ namespace TDD
 
         public int rate(String from , String to)
         {
-            return from.Equals("CHF") && to.Equals("USD") ? 2 : 1;
+            if (from.Equals(to)) return 1;
+            foreach(DictionaryEntry de in rates){
+                var keyname = de.Key as Pair;
+                var code = keyname.GetHashCode();
+            }
+
+            //var a = rates[0].GetHashCode();
+            var newobj = new Pair(from, to);
+            int rate = int.Parse(rates[newobj].ToString());
+            return rate;
         }
 
         public  void addRate(String from, String to, int rate)
         {
-            rates.Add(new Pair(from, to), rate);
-            
+            rates.Add(new Pair(from, to), rate);            
         }
     }
 
@@ -49,6 +57,9 @@ namespace TDD
             //return base.Equals(obj);
         }
 
-        
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }        
     }
 }

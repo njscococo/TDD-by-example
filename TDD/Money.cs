@@ -38,14 +38,14 @@ namespace TDD
         {
             return currency;
         }
-        
-        public Money times(int multiple)
+
+        public Expression times(int multiple)
         {
             return new Money(amount * multiple, currency);
         }
 
 
-        public Expression plus(Money addend)
+        public Expression plus(Expression addend)
         {
             //return new Money(amount + added.amount, currency);
             return new Sum(this, addend);
@@ -62,5 +62,7 @@ namespace TDD
     public interface Expression
     {
         Money reduce(Bank bank, String currencyTo);
+
+        Expression plus(Expression addend);
     }
 }

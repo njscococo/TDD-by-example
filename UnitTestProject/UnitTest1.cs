@@ -25,9 +25,9 @@ namespace UnitTestProject
 
         [TestMethod]
         public void testEquality()
-        {            
+        {
             Assert.IsFalse(Money.dollar(5).amountEquals(Money.dollar(6)));
-            
+
             Assert.IsFalse(new Money(5, "CHF").amountEquals(new Money(6, "CHF")));
 
             Assert.IsFalse(new Money(5, "USD").amountEquals(new Money(6, "USD")));
@@ -45,7 +45,7 @@ namespace UnitTestProject
         {
             Money five = Money.dollar(5);
             Expression sum = five.plus(five);
-            Bank bank = new Bank();            
+            Bank bank = new Bank();
             Money reduced = bank.reduce(sum, "USD");
             Assert.IsTrue(Money.dollar(10).amountEquals(reduced));
         }
@@ -58,7 +58,7 @@ namespace UnitTestProject
             Sum sum = result as Sum;
             Assert.IsTrue(five.amountEquals(sum.augend));
             Assert.IsTrue(five.amountEquals(sum.addend));
-         }
+        }
 
         [TestMethod]
         public void testReduceSum()
@@ -66,7 +66,7 @@ namespace UnitTestProject
             Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
             Bank bank = new Bank();
             Money result = bank.reduce(sum, "USD");
-            Assert.IsTrue(Money.dollar(7).amountEquals( result));
+            Assert.IsTrue(Money.dollar(7).amountEquals(result));
         }
 
         [TestMethod]
@@ -75,7 +75,9 @@ namespace UnitTestProject
             //Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
             Bank bank = new Bank();
             Money result = bank.reduce(Money.dollar(1), "USD");
-            Assert.IsTrue(Money.dollar(1).amountEquals(result));
+            //Assert.IsTrue(Money.dollar(1).amountEquals(result));
+            Assert.AreEqual(1, new Bank().rate("USD", "USD"));
+
         }
 
         [TestMethod]
@@ -86,32 +88,50 @@ namespace UnitTestProject
             Money result = bank.reduce(Money.franc(2), "USD");
             Assert.IsTrue(result.amountEquals(Money.dollar(1)));
         }
-    }
 
-    public class AssertHelper
-    {
-        //用來判斷2個物件的屬性值是否相同
-        public static bool HasSameFieldValues<T>(T expected, T actual)
+        [TestMethod]
+        public void testMixedAddition()
         {
-            var result = true;
-            var notEqual = new List<String>();
+            Expression fiveDollars = Money.dollar(5);
+            Expression tenFrancs = Money.franc(10);
 
-            var fields = typeof(T).GetFields(System.Reflection.BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-            fields.ToList().ForEach(delegate(FieldInfo field) {
-                if(!field.GetValue(expected).Equals(field.GetValue(actual))){
-                    notEqual.Add(String.Format("{0}: Expected: <{1}>,  Actual:<{2}>", field.Name, field.GetValue(expected), field.GetValue(actual)));
-                }                                                
-            });
+            Bank bank = new Bank();
+            bank.addRate("CHF", "USD", 2);
 
-            if(notEqual.Count>0){
-                result = false;
-                //Assert.Fail("AssertHelper.HasEqualFieldValues failed." + Environment.NewLine + string.Join(Environment.NewLine, notEqual));
+            Money result = bank.reduce(fiveDollars.plus(tenFrancs), "USD");
+            Assert.IsTrue(Money.dollar(10).amountEquals(result));
 
-            }
 
-            return result;
         }
 
+        public class AssertHelper
+        {
+            //用來判斷2個物件的屬性值是否相同
+            public static bool HasSameFieldValues<T>(T expected, T actual)
+            {
+                var result = true;
+                var notEqual = new List<String>();
 
+                var fields = typeof(T).GetFields(System.Reflection.BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+                fields.ToList().ForEach(delegate(FieldInfo field)
+                {
+                    if (!field.GetValue(expected).Equals(field.GetValue(actual)))
+                    {
+                        notEqual.Add(String.Format("{0}: Expected: <{1}>,  Actual:<{2}>", field.Name, field.GetValue(expected), field.GetValue(actual)));
+                    }
+                });
+
+                if (notEqual.Count > 0)
+                {
+                    result = false;
+                    //Assert.Fail("AssertHelper.HasEqualFieldValues failed." + Environment.NewLine + string.Join(Environment.NewLine, notEqual));
+
+                }
+
+                return result;
+            }
+
+
+        }
     }
 }

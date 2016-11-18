@@ -7,10 +7,10 @@ namespace TDD
 {
     public class Sum :Expression
     {
-        public Money addend;
-        public Money augend;
+        public Expression addend;
+        public Expression augend;
 
-        public Sum(Money augend, Money addend)
+        public Sum(Expression augend, Expression addend)
         {
             this.addend = addend;
             this.augend = augend;
@@ -18,8 +18,14 @@ namespace TDD
 
         public Money reduce(Bank bank, string currencyTo)
         {
-            int amount = augend.amount + addend.amount;
+            int amount = augend.reduce(bank, currencyTo ).amount + addend.reduce(bank, currencyTo).amount;
             return new Money(amount, currencyTo);
+        }
+
+
+        public Expression plus(Expression addend)
+        {
+            return null;
         }
     }
 }
